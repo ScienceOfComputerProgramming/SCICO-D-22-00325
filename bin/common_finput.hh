@@ -1,5 +1,5 @@
 // -*- coding: utf-8 -*-
-// Copyright (C) 2012-2017, 2022, 2023 Laboratoire de Recherche et
+// Copyright (C) 2012-2017, 2021-2023 Laboratoire de Recherche et
 // Développement de l'Epita (LRDE).
 //
 // This file is part of Spot, a model checking library.
@@ -51,6 +51,8 @@ extern const struct argp finput_argp_headless;
 int parse_opt_finput(int key, char* arg, struct argp_state* state);
 
 spot::parsed_formula parse_formula(const std::string& s);
+
+spot::formula parse_formula_arg(const std::string& input);
 
 
 class job_processor
