@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
-// Copyright (C) 2021 Laboratoire de Recherche et Developpement de
-// l'Epita (LRDE).
+// Copyright (C) 2021-2022 Laboratoire de Recherche et Developpement
+// de l'Epita (LRDE).
 //
 // This file is part of Spot, a model checking library.
 //
@@ -25,8 +25,9 @@ namespace spot
 {
   enum given_strategy
     {
-      GIVEN_SQUASH = 1,
-      GIVEN_IMPLIES = 2
+      GIVEN_RESTRICT = 1,
+      GIVEN_RELAX = 2,
+      GIVEN_ALL = GIVEN_RESTRICT | GIVEN_RELAX,
     };
 
   /// \ingroup twa_algorithms
@@ -37,18 +38,26 @@ namespace spot
   /// behaviors of S always satisfies \a fact, we can use that
   /// to modify \a aut in such a way that \a aut intersects S
   /// if an only if `given(aut,fact)` intersects S.
+  ///
+  /// The GIVEN_RESTRICT strategy uses \a fact to restrict the labels
+  /// of the \a aut to the subset of assignments that will actually
+  /// matter.  The GIVEN_RELAX strategy is almost the opposite: it use
+  /// assignments that will never be synchronized with an edge to
+  /// enlarge the set of assignments supported by this edge. The
+  /// latter enlargment is only done if it reduces the support of the
+  /// edge label.
   /// @{
   SPOT_API twa_graph_ptr
   given_here(twa_graph_ptr& aut, const_twa_graph_ptr& fact,
-             given_strategy = GIVEN_SQUASH);
+             given_strategy = GIVEN_ALL);
   SPOT_API twa_graph_ptr
   given_here(twa_graph_ptr& aut, formula fact,
-             given_strategy = GIVEN_SQUASH);
+             given_strategy = GIVEN_ALL);
   SPOT_API twa_graph_ptr
   given(const_twa_graph_ptr& aut, const_twa_graph_ptr& fact,
-        given_strategy = GIVEN_SQUASH);
+        given_strategy = GIVEN_ALL);
   SPOT_API twa_graph_ptr
   given(const_twa_graph_ptr& aut, formula fact,
-        given_strategy = GIVEN_SQUASH);
+        given_strategy = GIVEN_ALL);
   /// @}
 }
