@@ -1,5 +1,5 @@
 // -*- coding: utf-8 -*-
-// Copyright (C) 2021 Laboratoire de Recherche et Developpement de
+// Copyright (C) 2021, 2022, 2022 Laboratoire de Recherche et Developpement de
 // l'Epita (LRDE).
 //
 // This file is part of Spot, a model checking library.
@@ -23,6 +23,8 @@
 #include "spot/twaalgos/product.hh"
 #include "spot/twaalgos/sccinfo.hh"
 #include "spot/twaalgos/mask.hh"
+#include "spot/twaalgos/stutter.hh"
+#include "spot/twaalgos/complement.hh"
 
 namespace spot
 {
@@ -127,8 +129,15 @@ namespace spot
         false, // complete
         false, // stutter
       });
-
     aut->purge_dead_states();
+
+    if (strat & GIVEN_STUTTER)
+      {
+        auto stut = sl2(closure(aut));
+        if (!product(stut, complement(aut))->intersects(fact))
+          return stut;
+      }
+
     return aut;
   }
 
